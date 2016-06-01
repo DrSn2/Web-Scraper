@@ -21,7 +21,7 @@
 		
 		foreach($businesses as $business){
 
-		echo '<li><a href="index.php?page='.$page.'&business='.$business['business_name'].'">'.$business['business_name'].'</a></li>';
+		echo '<li><a href="index.php?page='.$page.'&business='.$business['business_name'].'">'.ucwords($business['business_name']).'</a></li>';
 
 		}
 	}

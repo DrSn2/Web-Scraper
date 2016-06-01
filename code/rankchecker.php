@@ -1,7 +1,9 @@
 <?php
  	require_once('required_files.php');
  	
- 	$company = $argv[1];
+ 	//$company = $argv[1];
+
+ 	$company = "cary builders";
 
  	//echo $company;
 
@@ -15,6 +17,11 @@
 	$search_term_query = $db->query($search_term_sql);
 	$search_term_keywords = $search_term_query->fetchAll(PDO::FETCH_ASSOC);
 
+	$target_areas_sql = "SELECT * FROM `target_areas` WHERE `business_name` = "."'".$company."'";
+	$target_areas_query = $db->query($target_areas_sql);
+	$target_areas = $target_areas_query->fetchAll(PDO::FETCH_ASSOC);
+
+foreach($target_areas as $target_area){
  	$start = 0;
  	foreach($keywords as $keyword){
  		$i = 1;
@@ -23,7 +30,7 @@
  		foreach($pages_to_check as $page){
 
  			sleep ( rand ( 1, 5));
- 			$url = 'https://www.google.com/search?q='.$keyword['keyword'].'&start='.$page;
+ 			$url = 'https://www.google.com/search?q='.$keyword['keyword'].'+'.$target_area['area'].'&start='.$page;
  			//$opts = array('http'=>array('header'=>random_uagent()));
  			/*$opts = array('http'=>array('header'=>random_user_agent()));
 
@@ -50,9 +57,9 @@
 					if(preg_match('/'.$search_term_keywords[0]['search_term'].'/', $linkObj)){
 
 						$search_title = trim($linkObj->plaintext);
-						$new_sql = 'INSERT INTO `page_rank` VALUES ("",'.$i.','.$serp_page.',"'.$keyword['business_name'].'","'.$keyword['keyword'].'","'.$search_title.'","'.$date.'")';
+						$new_sql = 'INSERT INTO `page_rank` VALUES ("",'.$i.','.$serp_page.',"'.$target_area['area'].'","'.$keyword['business_name'].'","'.$keyword['keyword'].'","'.$search_title.'","'.$date.'")';
 						$new_query = $db->query($new_sql);						
-        			echo $keyword['keyword'].': '.$linkObj." Page Rank: ".$i.'<br><br>';
+        			echo $keyword['keyword'].': '.$linkObj." Page Rank: ".$i.' '.$target_area['area'].'<br><br>';
     				}
     	
     				$i++;
@@ -62,4 +69,5 @@
    		}
     	
  	}
+ }	
 ?>
