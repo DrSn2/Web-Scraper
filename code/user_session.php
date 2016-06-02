@@ -25,6 +25,17 @@
 	if($user_check[0]['username'] == $username && $password_check[0]['password'] == $password){
 		session_start();
 		$_SESSION['user_id'] = $business_name[0]['business_name'];
+
+		$current_user = $_SESSION['user_id'];
+		$sql = 'SELECT `role` FROM `users` WHERE `business_name` = "'.$current_user.'"';
+		$query = $db->query($sql);
+		$user_check = $query->fetchAll(PDO::FETCH_ASSOC);
+		if(!isset($_SESSION['admin'])){
+			if($user_check[0]['role'] == "admin"){
+				$_SESSION['admin'] = "admin";
+			}
+		}
+
 		header('location:../index.php');
 
 	}else{

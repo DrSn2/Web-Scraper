@@ -1,9 +1,9 @@
 <?php
  	require_once('required_files.php');
  	
- 	//$company = $argv[1];
+ 	$company = $argv[1];
 
- 	$company = "cary builders";
+ 	//$company = "cary builders";
 
  	//echo $company;
 
