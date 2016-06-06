@@ -2,6 +2,16 @@
  	require_once('required_files.php');
  	
  	$company = $argv[1];
+ 	$proxies = array();
+			$proxies[] = '23.80.157.145:29842';  
+			$proxies[] = '23.108.99.80:29842';
+			$proxies[] = '23.80.157.74:29842';
+			$proxies[] = '23.108.99.139:29842';
+			$proxies[] = '23.80.157.224:29842';
+		
+ 			  // If the $proxies array contains items, then
+    		$proxy = $proxies[array_rand($proxies)]; 
+    		$proxyauth = 'dgalye:8VLXPm3D';   // Select a random proxy from the array and assign to $proxy variable
 
  	//$company = "cary builders";
 
@@ -30,17 +40,7 @@ foreach($target_areas as $target_area){
  		foreach($pages_to_check as $page){
 
  			sleep ( rand ( 1, 5));
-
- 			$proxies = array();
-			$proxies[] = '23.80.157.145:29842:dgalye:8VLXPm3D';  
-			$proxies[] = '23.108.99.80:29842:dgalye:8VLXPm3D';
-			$proxies[] = '23.80.157.74:29842:dgalye:8VLXPm3D';
-			$proxies[] = '23.108.99.139:29842:dgalye:8VLXPm3D';
-			$proxies[] = '23.80.157.224:29842:dgalye:8VLXPm3D';
-		
- 			if (isset($proxies)) {  // If the $proxies array contains items, then
-    		$proxy = $proxies[array_rand($proxies)];    // Select a random proxy from the array and assign to $proxy variable
-			}
+			
 
  			$url = 'https://www.google.com/search?q='.$keyword['keyword'].'+'.$target_area['area'].'&start='.$page;
  			//$opts = array('http'=>array('header'=>random_uagent()));
@@ -49,10 +49,11 @@ foreach($target_areas as $target_area){
             $context = stream_context_create($opts);
             $html = file_get_html($url,false,$context);*/
             $curl = curl_init(); 
-            curl_setopt($ch, CURLOPT_PROXY, $proxy);
+            curl_setopt($curl, CURLOPT_PROXY, $proxy);
+            curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyauth);
 			curl_setopt($curl, CURLOPT_URL, $url);  
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);  
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10); 
+			//curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10); 
 			curl_setopt($curl, CURLOPT_USERAGENT,random_user_agent()); 
 			$str = curl_exec($curl);  
 			curl_close($curl);  
@@ -65,7 +66,7 @@ foreach($target_areas as $target_area){
 			echo 'Page:'.$serp_page.'<br><br>';
 
 				foreach($linkObjs as $linkObj){
-					$date = date("Y-m-d h:i:sa");
+					$date = date("Y/m/d");
 					
 					if(preg_match('/'.$search_term_keywords[0]['search_term'].'/', $linkObj)){
 
@@ -83,4 +84,6 @@ foreach($target_areas as $target_area){
     	
  	}
  }	
+ $date_sql = 'INSERT INTO `rank_check_dates` VALUES ("","'.$date.'","'.$company.'")';
+ $date_sql_query = $db->query($date_sql);
 ?>
