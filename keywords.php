@@ -1,18 +1,8 @@
     <?php
-    if(is_admin($db)){
-
-      $business_name = ucwords($_GET['business']);
-      $sql = 'SELECT * FROM `keywords` WHERE `business_name` = '.'"'.$business_name.'"';
-      $h1_text = "Keywords ".$business_name." Is Tracking.";
-      $target_area_sql = 'SELECT * FROM `target_areas` WHERE `business_name` = '.'"'.$business_name.'"';
-
-    }else{
 
       $sql = 'SELECT * FROM `keywords` WHERE `business_name` = '.'"'.$_SESSION['user_id'].'"';
       $h1_text = "Keywords You Are Tracking.";
       $target_area_sql = 'SELECT * FROM `target_areas` WHERE `business_name` = '.'"'.$_SESSION['user_id'].'"';
-
-    }
 
     $query = $db->query($sql);
     $my_keywords = $query->fetchAll(PDO::FETCH_ASSOC);

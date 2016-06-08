@@ -3,17 +3,17 @@
  	
  	$company = $argv[1];
  	$proxies = array();
-			$proxies[] = '23.80.157.145:29842';  
-			$proxies[] = '23.108.99.80:29842';
-			$proxies[] = '23.80.157.74:29842';
-			$proxies[] = '23.108.99.139:29842';
-			$proxies[] = '23.80.157.224:29842';
+			$proxies[] = '23.80.151.117:29842';  
+			$proxies[] = '104.251.89.91:29842';
+			$proxies[] = '23.80.151.229:29842';
+			$proxies[] = '104.251.89.128:29842';
+			$proxies[] = '23.80.151.127:29842';
 		
  			  // If the $proxies array contains items, then
     		$proxy = $proxies[array_rand($proxies)]; 
     		$proxyauth = 'dgalye:8VLXPm3D';   // Select a random proxy from the array and assign to $proxy variable
 
- 	//$company = "cary builders";
+ 	//$company = "temecula valley sewing center";
 
  	//echo $company;
 
@@ -67,13 +67,14 @@ foreach($target_areas as $target_area){
 
 				foreach($linkObjs as $linkObj){
 					$date = date("Y/m/d");
-					
-					if(preg_match('/'.$search_term_keywords[0]['search_term'].'/', $linkObj)){
+					$search_title = trim($linkObj->plaintext);
 
-						$search_title = trim($linkObj->plaintext);
+					if(stripos($search_title,$search_term_keywords[0]['search_term']) !== false){
+
 						$new_sql = 'INSERT INTO `page_rank` VALUES ("",'.$i.','.$serp_page.',"'.$target_area['area'].'","'.$keyword['business_name'].'","'.$keyword['keyword'].'","'.$search_title.'","'.$date.'")';
 						$new_query = $db->query($new_sql);						
         			echo $keyword['keyword'].': '.$linkObj." Page Rank: ".$i.' '.$target_area['area'].'<br><br>';
+
     				}
     	
     				$i++;

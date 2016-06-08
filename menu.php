@@ -21,16 +21,19 @@ $username_upper = ucwords($_SESSION['user_id']);
      }
        ?>
        </li>
+       <?php
+       if(is_admin($db)){
+          include('admin_menu.php');
+       }
+       ?>
     </ul>
   </div>
   <div class="top-bar-right">
     <ul class="menu" data-responsive-menu="drilldown medium-dropdown">
       <?php
-        if(is_admin($db)){
-          include('admin_menu.php');
-        }else{
+        
           include('user_menu.php');
-        }
+
       ?>
     </ul>
   </div>
