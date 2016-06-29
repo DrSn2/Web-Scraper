@@ -12,16 +12,19 @@
     $target_areas = $target_area_query->fetchAll(PDO::FETCH_ASSOC);
 
       /* BEGING TARGET AREA FOREACH*/
-      foreach($target_areas as $target_area){
+      //foreach($target_areas as $target_area){
     ?>
     <row>
-    <div class="medium-6 medium large-6 large columns">
-    <h4 id="kwtitle"><?php echo "Keywords You Area Tracking In ".ucwords(str_replace("+"," ",$target_area['area'])); ?></h4>
+    <div class="medium-12 medium large-12 large columns">
+    <h4 id="kwtitle"><?php echo "Keywords You Area Tracking"; ?></h4>
+
     <table border="1">
     <thead>
     <tr>
       <th>Keyword</th>
       <th>Business</th>
+      <th>Change Keyword</th>
+      
     </tr>
   </thead>
   <tbody>
@@ -31,11 +34,11 @@
       ?>
       
       <tr>
-        <td><?php echo $my_keyword_formatted ?></td>
+        <td>
+        <?php echo $my_keyword_formatted ?></td>
         <td><?php echo ucwords($my_keyword['business_name']) ?></td>
-        <!--<td class="text-center"><?php echo $rank['serp_page'] ?></td>
-        <td><?php echo $rank['search_result'] ?></td>
-        <td><?php echo $rank['date'] ?></td>-->
+        <td><a href="change_keyword.php?id=<?php echo $my_keyword['id'];?>&value=<?php echo $my_keyword_formatted ;?>">Change Keyword</a></td>
+        
         
       </tr>
       
@@ -50,5 +53,5 @@
     </div>
     </row>
     <?php
-    } /* END TARGET AREA FOREACH*/
+   // } /* END TARGET AREA FOREACH*/
   ?>

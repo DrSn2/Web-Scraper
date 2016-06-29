@@ -1,11 +1,13 @@
-<!--START HEADER AREA-->
 <?php include('header.php'); ?>
 <!-- END HEADER AREA-->
 
 <!--START CONTENT AREA-->
  <div class="row">
     <?php
-      $page_url = $_GET['page'];
+      if(isset($_GET['page'])){
+
+        $page_url = $_GET['page'];
+      }
 
       if(empty($_GET['page'])){
 
@@ -28,6 +30,7 @@
     }
 
     ?>
+
     </div>
     <!--END CONTENT AREA-->
 

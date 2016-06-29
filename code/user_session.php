@@ -25,6 +25,12 @@
 	if($user_check[0]['username'] == $username && $password_check[0]['password'] == $password){
 		session_start();
 		$_SESSION['user_id'] = $business_name[0]['business_name'];
+		$ip = $_SERVER['REMOTE_ADDR'];
+		date_default_timezone_set('America/Los_Angeles');
+		$date = date('l jS \of F Y h:i:s A');
+		$login_sql = 'INSERT INTO `logins` VALUES("","'.$user_check[0]['username'].'","'.$ip.'","'.$date.'")';
+		$login_query = $db->query($login_sql);
+
 
 		$current_user = $_SESSION['user_id'];
 		$sql = 'SELECT `role` FROM `users` WHERE `business_name` = "'.$current_user.'"';

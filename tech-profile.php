@@ -9,6 +9,7 @@
 <!--START CONTENT AREA-->
  <div class="row">
 
+
  	<?php
  	
  	$proxies = array();
@@ -29,7 +30,11 @@
     		$url_query = $db->query($sql);
     		$get_url = $url_query->fetchAll(PDO::FETCH_ASSOC);
 
- 			$url = 'http://builtwith.com/'.$get_url[0]['url'];
+    		$url_str = $get_url[0]['url'];
+			$business_url = preg_replace('#^https?://#', '', rtrim($url_str,'/'));
+
+ 			$url = 'http://builtwith.com/'.$business_url;
+
  			//$opts = array('http'=>array('header'=>random_uagent()));
  			/*$opts = array('http'=>array('header'=>random_user_agent()));
 

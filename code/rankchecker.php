@@ -2,12 +2,22 @@
  	require_once('required_files.php');
  	
  	$company = $argv[1];
+
+ 	date_default_timezone_set('America/Los_Angeles');
+
  	$proxies = array();
 			$proxies[] = '23.80.151.117:29842';  
 			$proxies[] = '104.251.89.91:29842';
 			$proxies[] = '23.80.151.229:29842';
 			$proxies[] = '104.251.89.128:29842';
 			$proxies[] = '23.80.151.127:29842';
+			$proxies[] = '23.106.181.9:29842';  
+			$proxies[] = '23.106.20.160:29842';
+			$proxies[] = '23.106.252.131:29842';
+			$proxies[] = '23.106.253.84:29842';
+			$proxies[] = '23.106.196.165:29842';
+			$proxies[] = '23.106.19.38:29842';
+
 		
  			  // If the $proxies array contains items, then
     		$proxy = $proxies[array_rand($proxies)]; 
@@ -71,9 +81,31 @@ foreach($target_areas as $target_area){
 
 					if(stripos($search_title,$search_term_keywords[0]['search_term']) !== false){
 
-						$new_sql = 'INSERT INTO `page_rank` VALUES ("",'.$i.','.$serp_page.',"'.$target_area['area'].'","'.$keyword['business_name'].'","'.$keyword['keyword'].'","'.$search_title.'","'.$date.'")';
+						$last_rank_sql = 'SELECT * FROM `page_rank` WHERE `search_result` = "'.$search_title.'" AND `search_phrase` = "'.$keyword['keyword'].'" AND `target_area` = "'.$target_area['area'].'" AND `business_name` = "'.$keyword['business_name'].'" ORDER BY `date` DESC LIMIT 1';
+						$last_rank_query = $db->query($last_rank_sql);
+						$results = $last_rank_query->fetchAll(PDO::FETCH_ASSOC);
+						foreach($results as $result){
+						echo $result['rank'].' : '.$i;
+
+							if($result['rank'] != $i ){
+
+								$message = 'Your rankings for the keyword: '.$keyword['keyword'].' in '.$target_area['area'].' has changed for the following search result: '.$search_title.'. You were previously ranking #'.$result['rank'].' on page '.$result['serp_page'].' in Google and now you are ranking #'.$i.' on page '.$result['serp_page'];
+								echo 'NOT EQUAL';
+								echo $message;
+
+								$alert_sql = 'INSERT INTO `alerts` VALUES("","'.$keyword['business_name'].'","'.$keyword['keyword'].'","'.$target_area['area'].'","'.$search_title.'","'.$result['rank'].'","'.$result['serp_page'].'","'.$i.'","'.$serp_page.'","unread","unsent")';
+								echo $alert_sql;
+
+								$alert_result = $db->query($alert_sql);
+							}else{
+								echo 'EQUAL';
+							}
+
+						}
+
+						$new_sql = 'INSERT INTO `page_rank` VALUES ("",'.$i.','.$serp_page.',"'.$target_area['area'].'","'.$keyword['business_name'].'","'.$keyword['keyword'].'","'.$search_title.'","'.$date.'","'.$linkObj->href.'")';
 						$new_query = $db->query($new_sql);						
-        			echo $keyword['keyword'].': '.$linkObj." Page Rank: ".$i.' '.$target_area['area'].'<br><br>';
+        			echo $keyword['keyword'].': '.$linkObj->href." Page Rank: ".$i.' '.$target_area['area'].'<br><br>';
 
     				}
     	
@@ -84,7 +116,9 @@ foreach($target_areas as $target_area){
    		}
     	
  	}
- }	
+ }
+
+
  $date_sql = 'INSERT INTO `rank_check_dates` VALUES ("","'.$date.'","'.$company.'")';
  $date_sql_query = $db->query($date_sql);
 ?>
