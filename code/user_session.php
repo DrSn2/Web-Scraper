@@ -42,6 +42,15 @@
 			}
 		}
 
+		$ml_sql = 'SELECT * FROM `business` WHERE `business_name` = "'.$business_name[0]['business_name'].'"';
+		$ml_query = $db->query($ml_sql);
+		$ml_result = $ml_query->fetchAll(PDO::FETCH_ASSOC);
+
+		if($ml_result[0]['is_parent_company'] == 'yes'){
+			$_SESSION['multi_location'] = $business_name[0]['business_name'];
+		}
+
+
 		header('location:../index.php');
 
 	}else{

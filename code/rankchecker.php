@@ -21,7 +21,7 @@
 		
  			  // If the $proxies array contains items, then
     		$proxy = $proxies[array_rand($proxies)]; 
-    		$proxyauth = 'dgalye:8VLXPm3D';   // Select a random proxy from the array and assign to $proxy variable
+    		$proxyauth = 'Your proxy provider username here';   // Select a random proxy from the array and assign to $proxy variable
 
  	//$company = "temecula valley sewing center";
 

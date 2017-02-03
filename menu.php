@@ -25,6 +25,9 @@ $username_upper = ucwords($_SESSION['user_id']);
        if(is_admin($db)){
           include('admin_menu.php');
        }
+       if(isset($_SESSION['multi_location'])){
+          include('multi_location_menu.php');
+       }
        ?>
     </ul>
   </div>

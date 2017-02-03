@@ -7,6 +7,7 @@
 		}
 	}	
 
+
 	function get_all_business_li($db,$page){
 		$sql = 'SELECT * FROM `business`';
 		$query = $db->query($sql);
